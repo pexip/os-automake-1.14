@@ -1,0 +1,188 @@
+From 7bc592708cc65f30f8322c18624f48f19ffd726f Mon Sep 17 00:00:00 2001
+From: Stefano Lattarini <stefano.lattarini@gmail.com>
+Date: Mon, 21 Apr 2014 16:12:41 +0000
+Subject: init: ensure $ac_aux_dir is defined before being used
+
+Since we use '$ac_aux_dir' to define '$am_aux_dir', we need
+to ensure the former has been initialized before we try to
+define the latter, otherwise the definition:
+
+   am_aux_dir=`cd $ac_aux_dir && pwd`
+
+will set '$am_aux_dir' to '$HOME', likely causing weird and
+unexpected behaviours.
+
+This change fixes automake bug#15981.
+
+* m4/auxdir.m4 (AM_AUX_DIR_EXPAND): AC_REQUIRE expansion
+of 'AC_CONFIG_AUX_DIR_DEFAULT'. Fix redundant comment and
+AC_PREREQ, add extra quoting around '$ac_aux_dir'.
+* t/auxdir-pr15981.sh: New test.
+* t/auxdir-cc-pr15981.sh: Likewise.
+* t/list-of-tests.mk (handwritten_TESTS): Add them.
+* THANKS, NEWS: Update.
+* bin/automake.in: Fix a harmless typo in comments, that
+I happened to notice while writing this patch.
+
+Signed-off-by: Stefano Lattarini <stefano.lattarini@gmail.com>
+---
+Index: automake-1.14/THANKS
+===================================================================
+--- automake-1.14.orig/THANKS	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/THANKS	2014-10-26 21:58:35.491387561 -0400
+@@ -315,6 +315,7 @@
+ Peter Breitenlohner             peb@mppmu.mpg.de
+ Peter Eisentraut                peter_e@gmx.net
+ Peter Gavin                     pgavin@debaser.kicks-ass.org
++Peter Hutterer                  peter.hutterer@who-t.net
+ Peter Johansson                 trojkan@gmail.com
+ Peter Mattis                    petm@scam.XCF.Berkeley.EDU
+ Peter Muir                      iyhi@yahoo.com
+Index: automake-1.14/bin/automake.in
+===================================================================
+--- automake-1.14.orig/bin/automake.in	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/bin/automake.in	2014-10-26 21:58:35.491387561 -0400
+@@ -313,7 +313,7 @@
+ # Location of AC_REQUIRE_AUX_FILE calls, indexed by their argument.
+ my %required_aux_file = ();
+ 
+-# Where AM_INIT_AUTOMAKE is called;
++# Where AM_INIT_AUTOMAKE is called.
+ my $seen_init_automake = 0;
+ 
+ # TRUE if we've seen AM_AUTOMAKE_VERSION.
+Index: automake-1.14/m4/auxdir.m4
+===================================================================
+--- automake-1.14.orig/m4/auxdir.m4	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/m4/auxdir.m4	2014-10-26 21:58:35.491387561 -0400
+@@ -45,8 +45,7 @@
+ # configured tree to be moved without reconfiguration.
+ 
+ AC_DEFUN([AM_AUX_DIR_EXPAND],
+-[dnl Rely on autoconf to set up CDPATH properly.
+-AC_PREREQ([2.50])dnl
+-# expand $ac_aux_dir to an absolute path
+-am_aux_dir=`cd $ac_aux_dir && pwd`
++[AC_REQUIRE([AC_CONFIG_AUX_DIR_DEFAULT])dnl
++# Expand $ac_aux_dir to an absolute path.
++am_aux_dir=`cd "$ac_aux_dir" && pwd`
+ ])
+Index: automake-1.14/t/auxdir-cc-pr15981.sh
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ automake-1.14/t/auxdir-cc-pr15981.sh	2014-10-26 21:58:35.491387561 -0400
+@@ -0,0 +1,57 @@
++#! /bin/sh
++# Copyright (C) 2014 Free Software Foundation, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2, or (at your option)
++# any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++# Test automake bug#15981: automake 1.14 may use $ac_aux_dir
++# before it is defined, leading to error messages such as:
++# "/bin/sh: /home/david/missing: No such file or directory"
++
++required=cc
++. test-init.sh
++
++cat > configure.ac <<END
++AC_INIT([$me], [0.0])
++AC_USE_SYSTEM_EXTENSIONS
++AM_INIT_AUTOMAKE([1.11 foreign])
++AC_CONFIG_FILES([Makefile])
++AC_SUBST([MISSING])
++AC_OUTPUT
++test -n "\${MISSING}"
++END
++
++echo 'int main (void) { return 0; }' > foo.c
++
++cat > Makefile.am <<'END'
++bin_PROGRAMS = foo
++
++# Without quotes around '--help' and with an empty $(MISSING), make might
++# strip the trailing '--', call Bash's 'help' builtin, and have this test
++# succeed spuriously.  Yes, that has happened in practice :-(
++test:
++	$(MISSING) '--help'
++END
++
++$ACLOCAL
++$AUTOCONF
++$AUTOMAKE
++
++./configure 2>stderr || { cat stderr >&2; exit 1; }
++cat stderr >&2
++$FGREP "missing" stderr && exit 1
++
++$MAKE all
++$MAKE test
++
++:
+Index: automake-1.14/t/auxdir-pr15981.sh
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ automake-1.14/t/auxdir-pr15981.sh	2014-10-26 21:58:35.491387561 -0400
+@@ -0,0 +1,39 @@
++#! /bin/sh
++# Copyright (C) 2014 Free Software Foundation, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2, or (at your option)
++# any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++# AM_AUX_DIR_EXPAND should ensure $ac_aux_dir is properly initialized.
++# Issue revealed by related automake bug#15981.
++
++. test-init.sh
++
++cat > configure.ac <<'END'
++AC_INIT([test], [0.0])
++AM_AUX_DIR_EXPAND
++printf '%s\n' "ac_aux_dir: '$ac_aux_dir'"
++printf '%s\n' "am_aux_dir: '$am_aux_dir'"
++test "$ac_aux_dir" = . || AS_EXIT([1])
++test "$am_aux_dir" = "`pwd`" || AS_EXIT([1])
++AS_EXIT([0])
++END
++
++$ACLOCAL
++$AUTOCONF
++
++test -f install-sh  # sanity check
++
++./configure
++
++:
+Index: automake-1.14/t/list-of-tests.mk
+===================================================================
+--- automake-1.14.orig/t/list-of-tests.mk	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/t/list-of-tests.mk	2014-10-26 21:58:35.491387561 -0400
+@@ -116,6 +116,8 @@
+ t/aclocal-serial.sh \
+ t/aclocal-underquoted-defun.sh \
+ t/aclocal-verbose-install.sh \
++t/auxdir-pr15981.sh \
++t/auxdir-cc-pr15981.sh \
+ t/ac-output-old.tap \
+ t/acsilent.sh \
+ t/acsubst.sh \

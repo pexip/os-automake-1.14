@@ -1,0 +1,16 @@
+Date: Wed, 12 Feb 2014 11:42:54 +0100                                           
+From: Hilko Bengen <bengen@debian.org>                                          
+Subject: Bug#738716: automake: Generates syntax error in configure script       
+
+--- a/m4/init.m4     2014-02-12 09:45:22.883382346 +0100
++++ b/m4/init.m4     2014-02-12 09:45:40.758921507 +0100
+@@ -164,7 +164,8 @@
+ END
+     AC_MSG_ERROR([Your 'rm' program is bad, sorry.])
+   fi
+-fi])
++fi
++])
+ 
+ dnl Hook into '_AC_COMPILER_EXEEXT' early to learn its expansion.  Do not
+ dnl add the conditional right here, as _AC_COMPILER_EXEEXT may be further

@@ -1,0 +1,353 @@
+automake-1.14 (1:1.14.1-4) unstable; urgency=medium
+
+  * debian/patches/03-ensure-ac_aux_dir-set.diff: Add patch to ensure
+    ac_aux_dir is set before beeing used. (Closes: #764127)
+  * debian/control: Bump Standards-Version to 3.9.6 (no changes).
+  * debian/control, debian/copyright: Run wrap-and-sort.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 26 Oct 2014 21:15:42 -0400
+
+automake-1.14 (1:1.14.1-3) unstable; urgency=low
+
+  * debian/upstream/signing-key.asc: Rename upstream-signing-key.gpg to
+    give it the correct extension and better location.
+  * debian/rules: Allow bootstraping package without texinfo. Thanks
+    Daniel Schepler. (Closes: #737937)
+  * debian/patches/02-init-m4-newline.diff: Patch from Hilko Bengen to
+    force a newline at the end of AM_INIT_AUTOMAKE. (Closes: #738716)
+  * debian/rules: touch aclocal.m4 and Makefile.in to prevent rerunning of
+    aclocal and automake.
+
+ -- Eric Dorland <eric@debian.org>  Sat, 22 Feb 2014 02:49:15 -0500
+
+automake-1.14 (1:1.14.1-2) unstable; urgency=low
+
+  * Bump Standards-Version to 3.9.5.
+  * debian/watch, debian/upstream-signing-key.gpg: Add upstream signing
+    key verification.
+  * debian/01-texi-rename.diff: Add DEP3 headers.
+  * debian/automake.lintian-overrides: Add override for intentional empty
+    directory.
+  * debian/copyright: Add flashy new DEP5 copyright file.
+
+ -- Eric Dorland <eric@debian.org>  Sat, 28 Dec 2013 17:22:37 -0500
+
+automake-1.14 (1:1.14.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/03-hash-order-workaround.diff,
+    debian/patches/04-full-hash-order-fix.diff: Remove now unnecessary
+    patches.
+  * debian/patches/02-disable-tap-realtime-test.diff: Drop, test no longer
+    exits.
+
+ -- Eric Dorland <eric@debian.org>  Thu, 26 Dec 2013 01:03:29 -0500
+
+automake-1.14 (1:1.14-3) unstable; urgency=low
+
+  * debian/patches/04-full-hash-order-fix.diff: Better patch to fix
+    problems with new perl hash ordering.
+
+ -- Eric Dorland <eric@debian.org>  Mon, 11 Nov 2013 16:30:35 -0500
+
+automake-1.14 (1:1.14-2) unstable; urgency=low
+
+  * debian/patches/03-hash-order-workaround.diff: Add workaround for
+    failure due to hash ordering changes in perl 5.18+. (Closes: #725431)
+  * debian/control: Remove duplicate build depends on python-docutils.
+  * debian/control: Canonicalize Vcs-Browser field.
+  * debian/automake.postinst, debian/automake.preinst,
+    debian/automake.prerm: Use set -e instead of -e on the hash bang line.
+
+ -- Eric Dorland <eric@debian.org>  Sat, 02 Nov 2013 16:47:43 -0400
+
+automake-1.14 (1:1.14-1) unstable; urgency=low
+
+  * New upstream release.
+  * Rename files for automake-1.14.
+  * Add unzip as a build dependency as it seems to be needed by
+    t/dist-formats.tap.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 18 Aug 2013 02:18:11 -0400
+
+automake1.13 (1:1.13.3-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Guard dh_auto_clean file, in case Makefile is not present otherwise
+    GNUmakefile distclean failing in a not configured tree. (Closes: #714452)
+
+ -- Dmitrijs Ledkovs <dmitrij.ledkov@ubuntu.com>  Thu, 08 Aug 2013 23:04:52 +0100
+
+automake1.13 (1:1.13.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/watch: Watch the xz file instead of gz.
+  * debian/control: Add a lot of build-depends for the test suite. Thanks
+    Daniel Schepler. (Closes: #711241)
+  * debian/control: Fix description to specify that older versions are
+    available as separate packages. Thanks Vincent Lefevre. (Closes:
+    #438877)
+  * debian/control: Up dependency on autoconf to 2.65 and texinfo to 4.9.
+  * debian/control: Build-Depend on libglib2.0-dev for vala. See
+    http://bugs.debian.org/696298. Thanks Colin Watson. (Closes: #710714)
+  * debian/patches/02-disable-tap-realtime-test.diff: Disable
+    t/tap-realtime.sh test, since it fails.
+
+ -- Eric Dorland <eric@debian.org>  Sat, 08 Jun 2013 03:22:55 -0400
+
+automake1.13 (1:1.13.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 19 May 2013 01:08:06 -0400
+
+automake1.13 (1:1.13.1-1) unstable; urgency=low
+
+  * New upstream release. Rename everything for 1.13. (Closes: #671004)
+  * debian/control: Standards-Version to 3.9.4.
+  * debian/compact, debian/control: Upgrade to debhelper v9.
+  * debian/control: Fix Vcs-Git field URL.
+  * debian/patches/01-texi-rename.diff: Refresh patch.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 12 May 2013 02:52:22 -0400
+
+automake1.12 (1:1.12.6-2) experimental; urgency=low
+
+  * debian/control: Add missing build depends for tests.
+
+ -- Eric Dorland <eric@debian.org>  Tue, 25 Dec 2012 17:48:28 -0500
+
+automake1.12 (1:1.12.6-1) experimental; urgency=low
+
+  * New upstream release for experimental.
+
+ -- Eric Dorland <eric@debian.org>  Tue, 25 Dec 2012 03:14:45 -0500
+
+automake1.12 (1:1.12-1) unstable; urgency=low
+
+  * New upstream major release. (Closes: #671004)
+  * Rename paths for 1.12.
+  * debian/source/options: Remove unneeded options file.
+  * debian/automake.preinst: Remove automake-1.11 alternative on upgrade
+    from 1.11.
+  * debian/patches/01-texi-rename.diff: Update patch with automake1.12
+    paths.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 13 May 2012 23:10:26 -0400
+
+automake1.11 (1:1.11.5-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/control: Upgrade Standards-Version 3.9.3.
+
+ -- Eric Dorland <eric@debian.org>  Fri, 13 Apr 2012 23:27:35 -0400
+
+automake1.11 (1:1.11.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/automake.dirs: Add /usr/share/aclocal since aclocal expects it
+    to exist. (Closes: #659482)
+
+ -- Eric Dorland <eric@debian.org>  Sun, 08 Apr 2012 01:48:37 -0400
+
+automake1.11 (1:1.11.3-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #657982)
+  * debian/control: Add Multi-Arch: foreign. Thanks Sebastien
+    Bacher. (Closes: #658477)
+  * debian/patches/01-texi-rename.diff: Refresh patch.
+  * debian/control: Build-Depend on install-info to satisfy test.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 05 Feb 2012 01:21:12 -0500
+
+automake1.11 (1:1.11.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/control: Standards-Version to 3.9.2.0.
+  * doc/automake.texi, debian/patches/01-texi-rename.diff,
+    debian/patches/series: Move texi file patch into a quilt patch.
+  * debian/source/patch-header, debian/source/options: Remove
+    single-debian-patch option and patch-header.
+  * lib/Automake/Makefile.am: Remove spurious diff.
+  * debian/automake.dirs: Remove unneeded dirs file.
+  * debian/automake.doc-base: Fix section.
+  * debian/control: Drop article from description.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 15 Jan 2012 01:16:47 -0500
+
+automake1.11 (1:1.11.1-1) unstable; urgency=low
+
+  * New upstream release. Contains fix for CVE-2009-4029, which created
+    world-writable directories in distribution tarballs.
+  * debian/source/format, debian/source/options,
+    debian/source/patch-header: Convert to v3 quilt format, with
+    single-debian-patch.
+  * debian/control: Update autoconf dependency to >= 2.62. (Closes: #556175)
+  * debian/lintian.overrides, debian/automake.lintian-overrides: Rename
+    overrides file to use new dh_lintian helper.
+  * debian/rules, debian/control, debian/compat: Convert to a dh style
+    rules file, change debhelper dependency and compat file to match.
+
+ -- Eric Dorland <eric@debian.org>  Mon, 18 Jan 2010 00:46:44 -0500
+
+automake1.11 (1:1.11-1) unstable; urgency=low
+
+  * New upstream major release. (Closes: #512704)
+    - Rename many instances of 1.10 to 1.11.
+  * debian/automake-1.11.1, debian/aclocal-1.11.1: Remove our copy of
+    manpages.
+  * debian/automake.manpages, debian/automake.install: Remove manpages
+    file and use the .install, since automake now finally ships manpages.
+
+ -- Eric Dorland <eric@debian.org>  Wed, 12 Aug 2009 02:36:44 -0400
+
+automake1.10 (1:1.10.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/rules:
+    - Update Standards-Version to 3.8.1.
+    - Add ${misc:Depends} to the Depends line.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 12 Apr 2009 03:26:30 -0400
+
+automake1.10 (1:1.10.1-3) unstable; urgency=low
+
+  * debian/automake.postinst: Bump up the priority to 28 so that it wins
+    the priority war. This should have happened after etch was
+    released. (Closes: #464883)
+
+ -- Eric Dorland <eric@debian.org>  Sat, 09 Feb 2008 21:43:37 -0500
+
+automake1.10 (1:1.10.1-2) unstable; urgency=low
+
+  * The "Must Obey lintian" release.
+  
+  * debian/lintian.overrides: Fix the package name in the override.
+  * debian/automake.doc-base: Fix spurious space in paragraph separator.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 27 Jan 2008 21:42:41 -0500
+
+automake1.10 (1:1.10.1-1) unstable; urgency=low
+
+  * The "Revenge of the Documentation" release.
+  * New upstream release. The documentation now contains no invariant
+    sections or cover texts, so moving the documentation back into the
+    package. (Closes: #462148)
+  
+  * debian/rules: Add back the documentation building rules.
+  * debian/automake.info, debian/automake.doc-base: Add back these
+    document files.
+  * debian/control:
+    - Conflict and Replace automake1.10-doc.
+    - Remove Suggests on automake1.10-doc.
+    - Standards-Version to 3.7.3.
+    - Add Homepage and Vcs-* headers.
+  * doc/automake.texi: Rename the info file to automake-1.10.info.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 27 Jan 2008 19:51:43 -0500
+
+automake1.10 (1:1.10+nogfdl-1) unstable; urgency=low
+
+  * New upstream major release.
+
+ -- Eric Dorland <eric@debian.org>  Thu, 19 Oct 2006 00:03:24 -0400
+
+automake1.9 (1.9.6+nogfdl-2) unstable; urgency=low
+
+  * debian/automake1.9.doc-base: Remove, no more docs. (Closes: #385915)
+
+ -- Eric Dorland <eric@debian.org>  Sun,  3 Sep 2006 19:30:48 -0400
+
+automake1.9 (1.9.6+nogfdl-1) unstable; urgency=low
+
+  * New tarball with GFDL documentation stripped out because of Cover
+    Texts. (Closes: #374570)
+  * debian/automake1.9.info: Remove, no more docs.
+  * configure.ac, Makefile.am: Remove references to the doc dir. Run
+    reautoconf as well.
+  * debian/rules: Remove building of now non-existant docs.
+  * debian/control: Suggest automake1.9-doc.
+
+ -- Eric Dorland <eric@debian.org>  Sun,  3 Sep 2006 00:46:58 -0400
+
+automake1.9 (1.9.6-5) unstable; urgency=low
+
+  * debian/control:
+    - Standards-Version to 3.7.2.1.
+    - Use Build-Depends instead of Build-Depends-Indep for things 
+      that need to be there for the clean target.
+  * automake.in: Fix for extension detection of .info files. 
+
+ -- Eric Dorland <eric@debian.org>  Sat, 15 Jul 2006 00:28:25 -0400
+
+automake1.9 (1.9.6-4) unstable; urgency=low
+
+  * debian/watch: Add watch file.
+  * debian/copyright: Excellent patch from Joost van Baal to iterate all
+    the licenses used in the package, not just the GPL. (Closes: #355869)
+
+ -- Eric Dorland <eric@debian.org>  Sat, 11 Mar 2006 23:08:34 -0500
+
+automake1.9 (1.9.6-3) unstable; urgency=low
+
+  * debian/control: Build depend on texinfo >= 4.3 because we use
+    @tie. Thanks Wolfram Gloger (Closes: #349349)
+
+ -- Eric Dorland <eric@debian.org>  Fri, 27 Jan 2006 01:15:17 -0500
+
+automake1.9 (1.9.6-2) unstable; urgency=low
+
+  * tests/txinfo13.test, lib/am/texinfos.am: Apply patch from Alexandre
+    Duret-Lutz to reduce the number of files make dist slurps up. (Closes:
+    #321689)
+  * debian/automake1.9.postinst: Up the priority of automake1.9 to make it
+    take priority over automake1.4. (Closes: #228604)
+
+ -- Eric Dorland <eric@debian.org>  Fri, 20 Jan 2006 20:45:06 -0500
+
+automake1.9 (1.9.6-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Eric Dorland <eric@debian.org>  Wed, 13 Jul 2005 01:34:05 -0400
+
+automake1.9 (1.9.5-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/copyright: Add full copyright citation. 
+
+ -- Eric Dorland <eric@debian.org>  Wed, 16 Feb 2005 01:06:55 -0500
+
+automake1.9 (1.9.4-1) unstable; urgency=medium
+
+  * New upstream release. Fixes some long-standing issues, so lets get it
+    into sarge.
+
+ -- Eric Dorland <eric@debian.org>  Sat, 18 Dec 2004 23:53:26 -0500
+
+automake1.9 (1.9.3-1) unstable; urgency=medium
+
+  * New upstream release. Urgency medium since there's no reason for this
+    not to move to testing.
+  * doc/autmake.texi: Resolve CVS conflict about document name on upgrade. 
+
+ -- Eric Dorland <eric@debian.org>  Wed,  3 Nov 2004 00:04:38 -0500
+
+automake1.9 (1.9.2-1) unstable; urgency=medium
+
+  * New upstream release. Urgency medium since there's no reason for this
+    not to move to testing.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 19 Sep 2004 18:45:46 -0400
+
+automake1.9 (1.9.1-1) unstable; urgency=low
+
+  * New upstream release. 
+
+ -- Eric Dorland <eric@debian.org>  Thu, 12 Aug 2004 22:17:17 -0400
+
+automake1.9 (1.9-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Eric Dorland <eric@debian.org>  Wed, 28 Jul 2004 17:21:22 -0400
