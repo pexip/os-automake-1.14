@@ -1,7 +1,8 @@
 Source: automake-1.14
 Section: devel
 Priority: optional
-Maintainer: Eric Dorland <eric@debian.org>
+Maintainer: Pexip AS <packaging@pexip.com>
+XSBC-Pexip-Original-Maintainer: Eric Dorland <eric@debian.org>
 Standards-Version: 3.9.6
 Build-Depends: debhelper (>= 9)
 Build-Depends-Indep: autoconf (>= 2.65),
@@ -38,6 +39,7 @@ Build-Depends-Indep: autoconf (>= 2.65),
 Homepage: http://www.gnu.org/software/automake/
 Vcs-Git: git://anonscm.debian.org/users/eric/automake-1.14.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/eric/automake-1.14.git
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
 
 Package: automake
 Architecture: all

@@ -1,3 +1,9 @@
+automake-1.14 (1:1.14.1-4pexip1) pexip; urgency=low
+
+  * Prepare Pexip packaging
+
+ -- John-Mark Bell <jmb@pexip.com>  Mon, 21 Sep 2015 14:56:55 +0000
+
 automake-1.14 (1:1.14.1-4) unstable; urgency=medium
 
   * debian/patches/03-ensure-ac_aux_dir-set.diff: Add patch to ensure
